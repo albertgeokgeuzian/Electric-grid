@@ -74,15 +74,15 @@ function predictTime() {
         for (let j = i + 1; j < limit; j++) {
             let AOT2 = AOb[j].arrayoftime;
             if (AOT1.length == AOT2.length) {
-                check(AOT1, AOT2, AOb[j], AOb[i])
+                check(AOT1, AOT2, AOb, i, j)
             } else if (AOT2.length < AOT1.length) {
                 let l = AOT2.length;
                 AOT1 = AOT1.slice(0, l)
-                check(AOT1, AOT2)
+                check(AOT1, AOT2, AOb, i, j)
             } else if (AOT1.length < AOT2.length) {
                 let m = AOT1.length;
                 AOT2 = AOT2.slice(0, m)
-                check(AOT1, AOT2)
+                check(AOT1, AOT2, AOb, i, j)
             }
 
 
@@ -92,9 +92,23 @@ function predictTime() {
 
 }
 
-function check(array1, array2, AOB2, AOB1) {
+function check(array1, array2, AOB, i, j) {
     if (JSON.stringify(array1) == JSON.stringify(array2)) {
-        console.log('true motherfucker')
+        let end = new Date(AOB[i].date)
+        let start = new Date(AOB[j].date)
+        let recycle = (end - start) / 86400000
+        let period = recycle * 86400000
+        let prediction = new Date(end.getTime() + period)
+        let nadim = {
+            month: "",
+            day: "",
+            year: ""
+        }
+        nadim.month = prediction.getMonth() + 1;
+        nadim.day = prediction.getDate()
+        nadim.year = prediction.getFullYear()
+        console.log("On " + nadim.month + "/" + nadim.day + "/" + nadim.year + ", you will have electricity on: " + AOB[j].arrayoftime)
+
     }
 }
 
